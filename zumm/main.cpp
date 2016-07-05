@@ -369,7 +369,14 @@ int igrica (int komanda)
     }
     if (metak_ispaljen == 1)
     {
-        pos_m[0]++;
+        if (pos_m[0] < xmax + 1)
+        {
+            pos_m[0]++;
+        }
+        else
+        {
+            metak_ispaljen = 0;
+        }
     }
     if (komanda == pucanj_levo)
     {
@@ -377,7 +384,15 @@ int igrica (int komanda)
     }
     if (metak_ispaljen == 2)
     {
-        pos_m[0]--;
+        if (pos_m[0] > 0)
+        {
+            pos_m[0]--;
+        }
+        else
+        {
+            metak_ispaljen = 0;
+            pos_m[0] = xmax + 1;
+        }
     }
     if (komanda == pucanj_gore)
     {
@@ -385,7 +400,15 @@ int igrica (int komanda)
     }
     if (metak_ispaljen == 3)
     {
-        pos_m[1]--;
+        if (pos_m[1] > 0)
+        {
+            pos_m[1]--;
+        }
+        else
+        {
+            metak_ispaljen = 0;
+            pos_m[1] = ymax + 1;
+        }
     }
     if (komanda == pucanj_dole)
     {
@@ -393,7 +416,14 @@ int igrica (int komanda)
     }
     if (metak_ispaljen == 4)
     {
-        pos_m[1]++;
+        if (pos_m[1] < ymax + 1)
+        {
+            pos_m[1]++;
+        }
+        else
+        {
+            metak_ispaljen = 0;
+        }
     }
     for (int i = 0; i < brojac_reaktor; i++)
     {
@@ -571,15 +601,21 @@ int main (int argc, char *argv[])
         }
         else if (c == 'j')
         {
-            pos_m[0] = pos[0] - 1;
-            pos_m[1] = pos[1];
-            stanje = igrica(pucanj_levo);
+            if (pos[0] > 0)
+            {
+                pos_m[0] = pos[0] - 1;
+                pos_m[1] = pos[1];
+                stanje = igrica(pucanj_levo);
+            }
         }
         else if (c == 'i')
         {
-            pos_m[1] = pos[1] - 1;
-            pos_m[0] = pos[0];
-            stanje = igrica(pucanj_gore);
+            if (pos[0] > 0)
+            {
+                pos_m[1] = pos[1] - 1;
+                pos_m[0] = pos[0];
+                stanje = igrica(pucanj_gore);
+            }
         }
         else if (c == 'k')
         {
