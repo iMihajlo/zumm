@@ -1,0 +1,10 @@
+# depslib dependency file v1.0
+1468424465 source:c:\c++\code\zumm\zumm\main.cpp
+	<iostream>
+	<windows.h>
+	<stdio.h>
+	<conio.h>
+	<pthread.h>
+	<stdlib.h>
+	<time.h>
+
