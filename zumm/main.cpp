@@ -6,11 +6,10 @@
 #include <stdlib.h>
 #include <time.h>
 #include <main.h>
-
+#include <Metak.h>
 
 using namespace std;
 
-enum komande {levo, desno, gore, dole, nista, pucanj_desno, pucanj_levo, pucanj_dole, pucanj_gore};
 enum result {res_reaktor, res_medic, res_normal};
 enum oruzja {nijedno, pistolj, laser, bazooka};
 const int reaktor = -20;
@@ -19,6 +18,7 @@ const int pocetna_energija = 200;
 //const int kretanje = -5;
 const int maks_broj_reaktora = 400;
 const int maks_broj_medica = 400;
+Metak metak_objekat;
 int pos_reaktor[maks_broj_reaktora * 2] = {1, 4};
 int pos_medic[maks_broj_medica * 2] = {4, 1};
 //int pos[2] = {0,0};
@@ -342,10 +342,7 @@ void print_screen(void)
     cout << "Score: " << igrac_x.poeni << endl;
     gotoxy(xmax + 3, 3);
     cout << "Level: " << level << endl;
-    if (igrac_x.pozicija_metka[0] <= xmax && igrac_x.pozicija_metka[1] <= ymax)
-    {
-        matrix[igrac_x.pozicija_metka[0]][igrac_x.pozicija_metka[1]] = '*';
-    }
+    matrix[metak_objekat.pozicija_x][metak_objekat.pozicija_y] = '*';
     print_matrix();
     return;
 }
@@ -378,68 +375,11 @@ int igrica (int komanda)
         igrac_x.energija = igrac_x.energija + igrac_x.energija_kretanja;
         print_screen();
     }
-    if (komanda == pucanj_desno)
+    if (komanda == pucanj_desno || komanda == pucanj_levo || komanda == pucanj_gore || komanda == pucanj_dole)
     {
-        metak_ispaljen = 1;
+        metak_objekat.ispali(igrac_x.pozicija[0], igrac_x.pozicija[1], komanda);
     }
-    if (metak_ispaljen == 1)
-    {
-        if (igrac_x.pozicija_metka[0] < xmax + 1)
-        {
-            igrac_x.pozicija_metka[0]++;
-        }
-        else
-        {
-            metak_ispaljen = 0;
-        }
-    }
-    if (komanda == pucanj_levo)
-    {
-        metak_ispaljen = 2;
-    }
-    if (metak_ispaljen == 2)
-    {
-        if (igrac_x.pozicija_metka[0] > 0)
-        {
-            igrac_x.pozicija_metka[0]--;
-        }
-        else
-        {
-            metak_ispaljen = 0;
-            igrac_x.pozicija_metka[0] = xmax + 1;
-        }
-    }
-    if (komanda == pucanj_gore)
-    {
-        metak_ispaljen = 3;
-    }
-    if (metak_ispaljen == 3)
-    {
-        if (igrac_x.pozicija_metka[1] > 0)
-        {
-            igrac_x.pozicija_metka[1]--;
-        }
-        else
-        {
-            metak_ispaljen = 0;
-            igrac_x.pozicija_metka[1] = ymax + 1;
-        }
-    }
-    if (komanda == pucanj_dole)
-    {
-        metak_ispaljen = 4;
-    }
-    if (metak_ispaljen == 4)
-    {
-        if (igrac_x.pozicija_metka[1] < ymax + 1)
-        {
-            igrac_x.pozicija_metka[1]++;
-        }
-        else
-        {
-            metak_ispaljen = 0;
-        }
-    }
+    metak_objekat.kretanje();
     for (int i = 0; i < brojac_reaktor; i++)
     {
         if ((igrac_x.pozicija[0] == pos_reaktor[i]) && (igrac_x.pozicija[1] == pos_reaktor[i + 1]))
@@ -632,32 +572,18 @@ int main (int argc, char *argv[])
         }
         else if (c == 'l')
         {
-            igrac_x.pozicija_metka[0] = igrac_x.pozicija[0] + 1;
-            igrac_x.pozicija_metka[1] = igrac_x.pozicija[1];
             stanje = igrica(pucanj_desno);
         }
         else if (c == 'j')
         {
-            if (igrac_x.pozicija[0] > 0)
-            {
-                igrac_x.pozicija_metka[0] = igrac_x.pozicija[0] - 1;
-                igrac_x.pozicija_metka[1] = igrac_x.pozicija[1];
-                stanje = igrica(pucanj_levo);
-            }
+            stanje = igrica(pucanj_levo);
         }
         else if (c == 'i')
         {
-            if (igrac_x.pozicija[0] > 0)
-            {
-                igrac_x.pozicija_metka[1] = igrac_x.pozicija[1] - 1;
-                igrac_x.pozicija_metka[0] = igrac_x.pozicija[0];
-                stanje = igrica(pucanj_gore);
-            }
+            stanje = igrica(pucanj_gore);
         }
         else if (c == 'k')
         {
-            igrac_x.pozicija_metka[1] = igrac_x.pozicija[1] + 1;
-            igrac_x.pozicija_metka[0] = igrac_x.pozicija[0];
             stanje = igrica(pucanj_dole);
         }
         else

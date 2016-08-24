@@ -10,11 +10,12 @@ class Metak
 {
     public:
          Metak();
-         kretanje();
+         void kretanje();
          int pozicija_x;
          int pozicija_y;
+         int smer;
          int razorna_moc;
-         void ispali (int);
+         void ispali (int x_igraca, int y_igraca, int komanda);
         virtual ~ Metak();
 
     protected:
