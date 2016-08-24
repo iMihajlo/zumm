@@ -5,6 +5,8 @@
 #include <pthread.h>
 #include <stdlib.h>
 #include <time.h>
+#include <main.h>
+
 
 using namespace std;
 
@@ -17,8 +19,6 @@ const int pocetna_energija = 200;
 //const int kretanje = -5;
 const int maks_broj_reaktora = 400;
 const int maks_broj_medica = 400;
-const int xmax = 20;
-const int ymax = 20;
 int pos_reaktor[maks_broj_reaktora * 2] = {1, 4};
 int pos_medic[maks_broj_medica * 2] = {4, 1};
 //int pos[2] = {0,0};
