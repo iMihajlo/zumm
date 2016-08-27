@@ -342,7 +342,10 @@ void print_screen(void)
     cout << "Score: " << igrac_x.poeni << endl;
     gotoxy(xmax + 3, 3);
     cout << "Level: " << level << endl;
-    matrix[metak_objekat.pozicija_x][metak_objekat.pozicija_y] = '*';
+    if (metak_objekat.u_kretanju == true)
+    {
+        matrix[metak_objekat.pozicija_x][metak_objekat.pozicija_y] = '*';
+    }
     print_matrix();
     return;
 }
@@ -462,12 +465,10 @@ int igrica (int komanda)
         igrac_x.pozicija[1] = ymax;
         print_screen();
     }
-    if (igrac_x.pozicija_metka[0] == igrac_o.pozicija[0] && igrac_x.pozicija_metka[1] == igrac_o.pozicija[1])
+    if (metak_objekat.pozicija_x == igrac_o.pozicija[0] && metak_objekat.pozicija_y == igrac_o.pozicija[1])
     {
         usporenje = -20;
-        metak_ispaljen = 0;
-        igrac_x.pozicija_metka[0] = xmax + 1;
-        igrac_x.pozicija_metka[1] = ymax + 1;
+        metak_objekat.u_kretanju = false;
         igrac_x.poeni = igrac_x.poeni + 10;
     }
     if (igrac_x.pozicija[0] != igrac_o.pozicija[0])
@@ -596,7 +597,10 @@ int main (int argc, char *argv[])
         {
             if (stanje == res_normal)
             {
-                Beep(1000, 20);
+                if ((c == 'l' || c == 'k' || c == 'j' || c == 'i') && metak_objekat.u_kretanju == false)
+                {
+                    Beep(1000, 20);
+                }
             }
             if (stanje == res_reaktor)
             {

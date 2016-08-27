@@ -11,6 +11,7 @@ class Metak
     public:
          Metak();
          void kretanje();
+         bool u_kretanju;
          int pozicija_x;
          int pozicija_y;
          int smer;
